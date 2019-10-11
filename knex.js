@@ -24,6 +24,22 @@ app.get('/get', function(request, response){
 });
 
 
+app.post("/post/students",function(req,response){
+    firstname=req.body.firstname
+    lastname=req.body.lastname
+    email=req.body.email
+    data=[firstname,lastname,email]
+    var sql = "INSERT INTO students(firstname,lastname,email) VALUES (?,?,?)";
+    conn.query(sql,data, function(err, result){
+    if (err){
+            res.send(400).send("1 record inserted");
+        }else{
+            response.send("data inserted")
+        }
+    })
+});
+
+
 app.listen(2000, function () {
     console.log('Express server is listening on port 2000');
 });
