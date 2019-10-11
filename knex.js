@@ -39,6 +39,33 @@ app.post("/post/students",function(req,response){
     })
 });
 
+//rest api to update record into mysql database
+app.put("/update/:id/students",function(req,res){
+    
+    firstname=req.body.firstname
+    lastname=req.body.lastname
+    email=req.body.email
+    data=[firstname,lastname,email]
+    var sql = "UPDATE students SET firstname = ?,lastname = ?,email=? WHERE id="+req.params.id;    
+    conn.query(sql,data,function(err,result){
+        if (err){
+            res.send(400).send("1 record updated")
+        }else{
+            res.send("data updated")
+        }
+    })
+})
+
+//rest api to delete record from mysql database
+app.delete('/:id/students', function (req, res) {
+    console.log(req.body);
+    conn.query('DELETE FROM students WHERE id=?', [req.body.id], function (error) {
+       if (error) throw error;
+        res.end('Record has been deleted!');
+     });
+ });
+
+
 
 app.listen(2000, function () {
     console.log('Express server is listening on port 2000');
